@@ -30,7 +30,7 @@
       <tr>
           <th bgcolor="red">{{ task.name }}</th>
           <th>{{ task.deadline_date }}</th>
-          <th>{{ task.status }}</th>
+          <th>{{ task.get_status_display }}</th>
           <th>{{ task.user }}</th>
           <th><input type="button" value="Szczegóły taska" onclick="location.href='/task_detail/{{ task.id }}'"></th>
       </tr>
@@ -38,7 +38,7 @@
       <tr>
           <th bgcolor>{{ task.name }}</th>
           <th>{{ task.deadline_date }}</th>
-          <th>{{ task.status }}</th>
+          <th>{{ task.get_status_display }}</th>
           <th>{{ task.user }}</th>
           <th><input type="button" value="Szczegóły taska" onclick="location.href='/task_detail/{{ task.id }}'"></th>
       </tr>

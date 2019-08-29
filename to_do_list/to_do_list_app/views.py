@@ -48,10 +48,20 @@ class MyTaskView(View):
     def post(self, request):
 
         task_id = request.POST.get('Delete')
-        task = Task.objects.get(id=task_id)
+        task_status_done = request.POST.get('Status_done')
+        task_status_new = request.POST.get('Status_new')
 
         if task_id:
+            task = Task.objects.get(id=task_id)
             task.delete()
+        elif task_status_done:
+            done_status_task = Task.objects.get(id=task_status_done)
+            done_status_task.status = 2
+            done_status_task.save()
+        elif task_status_new:
+            new_status_task = Task.objects.get(id=task_status_new)
+            new_status_task.status = 1
+            new_status_task.save()
 
         user = request.user
         tasks = Task.objects.filter(user=user)

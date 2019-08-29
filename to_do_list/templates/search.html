@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Search Task</title>
+</head>
+<body>
+
+<form action="/search_task/" method="post">
+{% csrf_token %}
+    <input type="text" name="search" placeholder="search">
+    <input type="submit" value="Szukaj taska"> <br>
+
+
+    <table border="1px solid">
+        <tr>
+            <th> name </th>
+            <th> status </th>
+            <th> deadline date </th>
+            <th> user </th>
+            <th> description </th>
+        </tr>
+
+        {% for task in tasks %}
+        <tr>
+            <th> {{ task.name }} <br> </th>
+            <th> {{ task.status }} <br> </th>
+            <th> {{ task.deadline_date }} <br> </th>
+            <th> {{ task.user }} <br> </th>
+            <th> {{ task.description }} <br> </th>
+
+        {% endfor %}
+        </tr>
+    </table>
+</form>
+</body>
+</html>

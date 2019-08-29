@@ -2,8 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 
 STATUS = (
-    (1, "New"),
-    (2, "Done")
+    ('1', "New"),
+    ('2', "Done")
 )
 
 class Task(models.Model):
@@ -12,4 +12,6 @@ class Task(models.Model):
     deadline_date = models.DateField()
     description = models.TextField()
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+
 

@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Task</title>
+</head>
+<body>
+
+{% block templates %}
+<form action="/add_task/" method="post">
+    {% csrf_token %}
+    <br>
+{{ message }} <br>
+{{ form.as_p }}
+<br>
+<input type="submit" value="Add Task">
+<br> <br>
+<button onclick="window.location.href='/index/'">Show All Tasks</button><br>
+
+{% endblock %}
+
+
+</form>
+</body>
+</html>

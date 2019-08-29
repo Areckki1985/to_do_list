@@ -26,13 +26,23 @@
     </thead>
     <tbody>
       {% for task in tasks %}
+      {% if task.deadline_date <= today and task.status == "1" %}
       <tr>
-          <th>{{ task.name }}</th>
+          <th bgcolor="red">{{ task.name }}</th>
           <th>{{ task.deadline_date }}</th>
           <th>{{ task.status }}</th>
           <th>{{ task.user }}</th>
           <th><input type="button" value="Szczegóły taska" onclick="location.href='/task_detail/{{ task.id }}'"></th>
       </tr>
+      {% else %}
+      <tr>
+          <th bgcolor>{{ task.name }}</th>
+          <th>{{ task.deadline_date }}</th>
+          <th>{{ task.status }}</th>
+          <th>{{ task.user }}</th>
+          <th><input type="button" value="Szczegóły taska" onclick="location.href='/task_detail/{{ task.id }}'"></th>
+      </tr>
+      {% endif %}
       {% endfor %}
     </tbody>
   </table>

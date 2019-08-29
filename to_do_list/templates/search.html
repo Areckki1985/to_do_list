@@ -1,37 +1,48 @@
+{% extends 'base.html' %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Search Task</title>
+  <title>All Tasks</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 </head>
 <body>
-
+{% block templates %}
+<div class="container">
+  <h2>Search Tasks Table</h2>
 <form action="/search_task/" method="post">
-{% csrf_token %}
+    {% csrf_token %}
     <input type="text" name="search" placeholder="search">
     <input type="submit" value="Szukaj taska"> <br>
 
+  <table class="table">
+    <thead>
+      <tr>
+          <th>Task Name</th>
+          <th>Task Deadline Date</th>
+          <th>Task Status</th>
+          <th>User Name</th>
+          <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for task in tasks %}
+      <tr>
+          <th>{{ task.name }}</th>
+          <th>{{ task.deadline_date }}</th>
+          <th>{{ task.status }}</th>
+          <th>{{ task.user }}</th>
+          <th>{{ task.description }}</th>
+          <th><input type="button" value="Szczegóły taska" onclick="location.href='/task_detail/{{ task.id }}'"></th>
 
-    <table border="1px solid">
-        <tr>
-            <th> name </th>
-            <th> status </th>
-            <th> deadline date </th>
-            <th> user </th>
-            <th> description </th>
-        </tr>
-
-        {% for task in tasks %}
-        <tr>
-            <th> {{ task.name }} <br> </th>
-            <th> {{ task.status }} <br> </th>
-            <th> {{ task.deadline_date }} <br> </th>
-            <th> {{ task.user }} <br> </th>
-            <th> {{ task.description }} <br> </th>
-
-        {% endfor %}
-        </tr>
-    </table>
-</form>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
 </body>
 </html>

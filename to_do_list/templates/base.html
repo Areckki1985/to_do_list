@@ -16,13 +16,18 @@
 {% if user.is_authenticated %}
     <ul class="nav justify-content-center" style="background-color:grey;">
       <div style="color: darkorange; font-weight: bolder;">
-        <li class="nav-item" style="padding: 5px;">
-          <strong><i>Hi {{ user.username }}!</i></strong>
-        </li>
+
+            <li class="nav-item" style="padding: 5px;">
+                <strong><i>Hi {{ user.username }}!</i></strong>
+            </li>
       </div>
 
         <li class="nav-item" style="padding: 5px;">
           <a href="{% url 'logout' %}">Wyloguj</a>
+        </li>
+
+        <li class="nav-item" style="padding: 5px;">
+            <strong><a href="/">Back to Home Site</a></strong>
         </li>
 
     </ul>

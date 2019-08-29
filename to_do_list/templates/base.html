@@ -1,13 +1,46 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <title>{% block title %}Django Auth Tutorial{% endblock %}</title>
-</head>
-<body>
-  <main>
-    {% block content %}
+<!doctype html>
+{% load static %}
+<html style="height: 100%">
+
+
+
+
+    <head>
+      <meta charset="utf-8">
+    </head>
+
+    <title>{% block title %}To Do List{% endblock %}</title>
+
+    <body style="height: 100%">
+
+{% if user.is_authenticated %}
+    <ul class="nav justify-content-center" style="background-color:grey;">
+      <div style="color: darkorange; font-weight: bolder;">
+        <li class="nav-item" style="padding: 5px;">
+          <strong><i>Hi {{ user.username }}!</i></strong>
+        </li>
+      </div>
+
+        <li class="nav-item" style="padding: 5px;">
+          <a href="{% url 'logout' %}">Wyloguj</a>
+        </li>
+
+    </ul>
+
+{% else %}
+
+    <ul class="nav justify-content-center" style="background-color:grey;">
+      <p style="padding: 5px">You are not logged in</p>
+      <a style="padding: 5px" href="{% url 'login' %}">Zaloguj</a> <br><br>
+      <a style="padding: 5px" href="{% url 'signup' %}">Załóż konto</a>
+    </ul>
+{% endif %}
+
+    {% block templates %}
+
     {% endblock %}
-  </main>
-</body>
+    </body>
 </html>
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>

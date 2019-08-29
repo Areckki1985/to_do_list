@@ -7,7 +7,9 @@ from to_do_list_app.models import Task
 
 from django.db.models import Q
 
+from datetime import date
 
+today = date.today()
 
 class CreateTaskView(View):
 
@@ -34,7 +36,8 @@ class IndexView(View):
 
         tasks = Task.objects.all()
 
-        return render(request, 'index.html', {'tasks':tasks})
+
+        return render(request, 'index.html', {'tasks':tasks, 'today': today})
 
 class MyTaskView(View):
     def get(self, request):
@@ -43,7 +46,7 @@ class MyTaskView(View):
 
         tasks = Task.objects.filter(user=user)
 
-        return render(request, 'my_tasks.html', {'tasks':tasks})
+        return render(request, 'my_tasks.html', {'tasks':tasks, 'today': today})
 
     def post(self, request):
 
@@ -66,7 +69,7 @@ class MyTaskView(View):
         user = request.user
         tasks = Task.objects.filter(user=user)
 
-        return render(request, 'my_tasks.html', {'tasks': tasks})
+        return render(request, 'my_tasks.html', {'tasks':tasks, 'today': today})
 
 class TaskDetailView(View):
     def get(self, request, id):
@@ -85,6 +88,6 @@ class SearchTaskView(View):
         task_description = request.POST.get('search')
         tasks = Task.objects.filter(Q(name__contains=task_description) | Q(description__contains=task_description))
 
-        return render(request, 'search.html', {'tasks':tasks})
+        return render(request, 'search.html', {'tasks':tasks, 'today': today})
 
 

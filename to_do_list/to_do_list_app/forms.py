@@ -1,7 +1,9 @@
-from django.forms import ModelForm
+from django.forms import ModelForm, SelectDateWidget
 
-from to_do_list.models import Task
+from to_do_list_app.models import Task
 
 class AddTaskForm(ModelForm):
-    model = Task
-    fields = ['name', 'deadline_date', 'description']
+    class Meta:
+        model = Task
+        fields = ['name', 'deadline_date', 'description']
+        widgets = {'deadline_date':SelectDateWidget()}

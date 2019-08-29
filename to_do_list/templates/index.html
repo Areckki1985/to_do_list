@@ -28,19 +28,19 @@
       {% for task in tasks %}
       {% if task.deadline_date <= today and task.status == "1" %}
       <tr>
-          <th bgcolor="red">{{ task.name }}</th>
-          <th>{{ task.deadline_date }}</th>
-          <th>{{ task.get_status_display }}</th>
-          <th>{{ task.user }}</th>
-          <th><input type="button" value="Szczegóły taska" onclick="location.href='/task_detail/{{ task.id }}'"></th>
+          <th bgcolor="red"; class="text-center">{{ task.name }}</th>
+          <th class="text-center">{{ task.deadline_date }}</th>
+          <th class="text-center">{{ task.get_status_display }}</th>
+          <th class="text-center">{{ task.user }}</th>
+          <th class="text-center"><input type="button" value="Szczegóły taska" onclick="location.href='/task_detail/{{ task.id }}'"></th>
       </tr>
       {% else %}
       <tr>
-          <th bgcolor>{{ task.name }}</th>
-          <th>{{ task.deadline_date }}</th>
-          <th>{{ task.get_status_display }}</th>
-          <th>{{ task.user }}</th>
-          <th><input type="button" value="Szczegóły taska" onclick="location.href='/task_detail/{{ task.id }}'"></th>
+          <th class="text-center">{{ task.name }}</th>
+          <th class="text-center">{{ task.deadline_date }}</th>
+          <th class="text-center">{{ task.get_status_display }}</th>
+          <th class="text-center">{{ task.user }}</th>
+          <th class="text-center"><input type="button" value="Szczegóły taska" onclick="location.href='/task_detail/{{ task.id }}'"></th>
       </tr>
       {% endif %}
       {% endfor %}

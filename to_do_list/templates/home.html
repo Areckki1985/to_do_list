@@ -1,13 +1,25 @@
 {% extends 'base.html' %}
 
-{% block title %}Home{% endblock %}
+{% block title %}Home - To Do List{% endblock %}
 
-{% block content %}
-{% if user.is_authenticated %}
-  Hi {{ user.username }}!
-  <p><a href="{% url 'logout' %}">logout</a></p>
-{% else %}
-  <p>You are not logged in</p>
-  <a href="{% url 'login' %}">login</a>
-{% endif %}
+{% block templates %}
+
+{% load static %}
+<div>
+  {% if user.is_authenticated %}
+    <input style="position: absolute; left: 100px; bottom: 850px" type="button" value="Add Task" onclick="location.href='/add_task/'"><br>
+    <input style="position: absolute; left: 100px; bottom: 800px" type="button" value="Show All Tasks" onclick="location.href='/index/'"><br>
+    <input style="position: absolute; left: 100px; bottom: 750px" type="button" value="Show My Tasks" onclick="location.href='/my_tasks/'"><br>
+    <input style="position: absolute; left: 100px; bottom: 700px" type="button" value="Search For Tasks" onclick="location.href='/search_task/'"><br>
+
+
+  {% else %}
+    <input style="position: absolute; left: 100px; bottom: 800px" type="button" value="Show All Tasks" onclick="location.href='/index/'"><br>
+    <input style="position: absolute; left: 100px; bottom: 750px" type="button" value="Search For Tasks" onclick="location.href='/search_task/'"><br>
+  {% endif %}
+
+</div>
+
+
+
 {% endblock %}

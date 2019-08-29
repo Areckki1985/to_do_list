@@ -28,14 +28,29 @@
     </thead>
     <tbody>
       {% for task in tasks %}
+      {% if task.deadline_date <= today and task.status == "1" %}
+      <tr>
+          <th bgcolor="red">{{ task.name }}</th>
+          <th>{{ task.deadline_date }}</th>
+          <th>{{ task.status }}</th>
+          <th>{{ task.user }}</th>
+          <th><input type="button" value="Task Details" onclick="location.href='/task_detail/{{ task.id }}'"></th>
+          <th><button type="submit" name="Delete" value="{{ task.id }} ">Delete</button> <br></th>
+          <th><button type="submit" name="Status_done" value="{{ task.id }} ">Done</button> <br></th>
+          <th><button type="submit" name="Status_new" value="{{ task.id }} ">New</button> <br></th>
+      </tr>
+      {% else %}
       <tr>
           <th>{{ task.name }}</th>
           <th>{{ task.deadline_date }}</th>
           <th>{{ task.status }}</th>
           <th>{{ task.user }}</th>
-          <th><input type="button" value="Szczegóły taska" onclick="location.href='/task_detail/{{ task.id }}'"></th>
-          <th><button type="submit" name="Delete" value="{{ task.id }} ">Usuń</button> <br></th>
+          <th><input type="button" value="Task Details" onclick="location.href='/task_detail/{{ task.id }}'"></th>
+          <th><button type="submit" name="Delete" value="{{ task.id }} ">Delete</button> <br></th>
+          <th><button type="submit" name="Status_done" value="{{ task.id }} ">Done</button> <br></th>
+          <th><button type="submit" name="Status_new" value="{{ task.id }} ">New</button> <br></th>
       </tr>
+      {% endif %}
       {% endfor %}
     </tbody>
   </table>

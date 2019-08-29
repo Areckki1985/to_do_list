@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>All Tasks</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+{% block templates %}
+<div class="container">
+  <h2>Detailed Tasks Table</h2>
+
+    {% csrf_token %}
+
+
+  <table class="table">
+    <thead>
+      <tr>
+          <th>Task Name</th>
+          <th>Task Deadline Date</th>
+          <th>Task Status</th>
+          <th>User Name</th>
+          <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <tr>
+          <th>{{ task.name }}</th>
+          <th>{{ task.deadline_date }}</th>
+          <th>{{ task.status }}</th>
+          <th>{{ task.user }}</th>
+          <th>{{ task.description }}</th>
+
+      </tr>
+
+    </tbody>
+  </table>
+</div>
+{% endblock %}
+</body>
+</html>

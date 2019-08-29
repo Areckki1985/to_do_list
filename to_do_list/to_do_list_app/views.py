@@ -5,6 +5,10 @@ from to_do_list_app.forms import AddTaskForm
 
 from to_do_list_app.models import Task
 
+from django.db.models import Q
+
+
+
 class CreateTaskView(View):
 
     def get(self, request):
@@ -53,5 +57,24 @@ class MyTaskView(View):
         tasks = Task.objects.filter(user=user)
 
         return render(request, 'my_tasks.html', {'tasks': tasks})
+
+class TaskDetailView(View):
+    def get(self, request, id):
+
+        task = Task.objects.get(id=id)
+
+        return render(request, 'task_detail.html', {'task':task})
+
+class SearchTaskView(View):
+    def get(self, request):
+
+        return render (request, 'search.html')
+
+    def post(self, request):
+
+        task_description = request.POST.get('search')
+        tasks = Task.objects.filter(Q(name__contains=task_description) | Q(description__contains=task_description))
+
+        return render(request, 'search.html', {'tasks':tasks})
 
 

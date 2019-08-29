@@ -20,21 +20,21 @@
   <table class="table">
     <thead>
       <tr>
-          <th>Task Name</th>
-          <th>Task Deadline Date</th>
-          <th>Task Status</th>
-          <th>User Name</th>
-          <th>Description</th>
+          <th class="text-center">Task Name</th>
+          <th class="text-center">Task Deadline Date</th>
+          <th class="text-center">Task Status</th>
+          <th class="text-center">User Name</th>
+          <th class="text-center">Description</th>
       </tr>
     </thead>
     <tbody>
 
       <tr>
-          <th>{{ task.name }}</th>
-          <th>{{ task.deadline_date }}</th>
-          <th>{{ task.status }}</th>
-          <th>{{ task.user }}</th>
-          <th>{{ task.description }}</th>
+          <th class="text-center">{{ task.name }}</th>
+          <th class="text-center">{{ task.deadline_date }}</th>
+          <th class="text-center">{{ task.get_status_display }}</th>
+          <th class="text-center">{{ task.user }}</th>
+          <th class="text-center">{{ task.description }}</th>
 
       </tr>
 

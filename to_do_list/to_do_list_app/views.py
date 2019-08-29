@@ -32,6 +32,26 @@ class IndexView(View):
 
         return render(request, 'index.html', {'tasks':tasks})
 
+class MyTaskView(View):
+    def get(self, request):
 
+        user = request.user
+
+        tasks = Task.objects.filter(user=user)
+
+        return render(request, 'my_tasks.html', {'tasks':tasks})
+
+    def post(self, request):
+
+        task_id = request.POST.get('Delete')
+        task = Task.objects.get(id=task_id)
+
+        if task_id:
+            task.delete()
+
+        user = request.user
+        tasks = Task.objects.filter(user=user)
+
+        return render(request, 'my_tasks.html', {'tasks': tasks})
 
 

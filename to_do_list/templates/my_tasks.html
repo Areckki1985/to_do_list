@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All Tasks</title>
+</head>
+<body>
+{% block templates %}
+<form action="/my_tasks/" method="post">
+    {% csrf_token %}
+    <table border="1px solid">
+        <tr>
+            <th> Name </th>
+            <th> Deadline Date </th>
+            <th> Status </th>
+            <th> User </th>
+
+        </tr>
+        {% for task in tasks %}
+        <tr>
+            <th>{{ task.name }}</th>
+            <th>{{ task.deadline_date }}</th>
+            <th>{{ task.status }}</th>
+            <th>{{ task.user }}</th>
+            <th><button onclick="location.href='/task_details/'">Szczegóły taska</th>
+            <th><button type="submit" name="Delete" value="{{ task.id }} ">Usuń</button> <br></th>
+
+        </tr>
+        {% endfor %}
+
+    </table>
+</form>
+{% endblock %}
+
+</body>
+</html>

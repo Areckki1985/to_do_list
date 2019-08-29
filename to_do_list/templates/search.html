@@ -16,7 +16,7 @@
 <form action="/search_task/" method="post">
     {% csrf_token %}
     <input type="text" name="search" placeholder="search">
-    <input type="submit" value="Szukaj taska"> <br>
+    <input type="submit" value="Search for Task"> <br>
 
   <table class="table">
     <thead>
@@ -30,15 +30,27 @@
     </thead>
     <tbody>
       {% for task in tasks %}
+      {% if task.deadline_date <= today and task.status == "1" %}
+      <tr>
+          <th bgcolor="red">{{ task.name }}</th>
+          <th>{{ task.deadline_date }}</th>
+          <th>{{ task.status }}</th>
+          <th>{{ task.user }}</th>
+          <th>{{ task.description }}</th>
+          <th><input type="button" value="Task Details" onclick="location.href='/task_detail/{{ task.id }}'"></th>
+
+      </tr>
+      {% else %}
       <tr>
           <th>{{ task.name }}</th>
           <th>{{ task.deadline_date }}</th>
           <th>{{ task.status }}</th>
           <th>{{ task.user }}</th>
           <th>{{ task.description }}</th>
-          <th><input type="button" value="Szczegóły taska" onclick="location.href='/task_detail/{{ task.id }}'"></th>
+          <th><input type="button" value="Task Details" onclick="location.href='/task_detail/{{ task.id }}'"></th>
 
       </tr>
+      {% endif %}
       {% endfor %}
     </tbody>
   </table>

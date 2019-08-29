@@ -8,7 +8,8 @@ STATUS = (
 
 class Task(models.Model):
     name = models.CharField(max_length=255)
-    status = models.SmallIntegerField(choices=STATUS, default=1)
+    status = models.CharField(max_length=1, choices=STATUS, default=1)
     deadline_date = models.DateField()
     description = models.TextField()
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+

@@ -8,13 +8,9 @@ from to_do_list_app.models import Task
 from to_do_list_app.forms import AddTaskForm
 
 
-
-
-
-
-def today_date():
-    today = date.today()
-    return today
+# def today_date():
+today = date.today()
+    # return today
 
 class CreateTaskView(View):
 
@@ -55,19 +51,19 @@ class MyTaskView(View):
 
     def post(self, request):
 
-        task_id = request.POST.get('Delete')
-        task_status_done = request.POST.get('Status_done')
-        task_status_new = request.POST.get('Status_new')
+        delete = request.POST.get('Delete')
+        status_done = request.POST.get('Status_done')
+        status_new = request.POST.get('Status_new')
 
-        if task_id:
-            task = Task.objects.get(id=task_id)
+        if delete:
+            task = Task.objects.get(id=delete)
             task.delete()
-        elif task_status_done:
-            done_status_task = Task.objects.get(id=task_status_done)
+        elif status_done:
+            done_status_task = Task.objects.get(id=status_done)
             done_status_task.status = 2
             done_status_task.save()
-        elif task_status_new:
-            new_status_task = Task.objects.get(id=task_status_new)
+        elif status_new:
+            new_status_task = Task.objects.get(id=status_new)
             new_status_task.status = 1
             new_status_task.save()
 
@@ -90,8 +86,8 @@ class SearchTaskView(View):
 
     def post(self, request):
 
-        task_description = request.POST.get('search')
-        tasks = Task.objects.filter(Q(name__contains=task_description) | Q(description__contains=task_description))
+        search = request.POST.get('search')
+        tasks = Task.objects.filter(Q(name__contains=search) | Q(description__contains=search))
 
         return render(request, 'search.html', {'tasks':tasks, 'today': today})
 

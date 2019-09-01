@@ -1,15 +1,20 @@
-from django.shortcuts import render
 from django.views import View
-
-from to_do_list_app.forms import AddTaskForm
-
-from to_do_list_app.models import Task
-
+from django.shortcuts import render
 from django.db.models import Q
 
 from datetime import date
 
-today = date.today()
+from to_do_list_app.models import Task
+from to_do_list_app.forms import AddTaskForm
+
+
+
+
+
+
+def today_date():
+    today = date.today()
+    return today
 
 class CreateTaskView(View):
 

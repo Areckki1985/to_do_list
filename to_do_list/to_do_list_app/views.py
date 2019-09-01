@@ -8,10 +8,6 @@ from to_do_list_app.models import Task
 from to_do_list_app.forms import AddTaskForm
 
 
-# def today_date():
-today = date.today()
-    # return today
-
 class CreateTaskView(View):
 
     def get(self, request):
@@ -38,7 +34,7 @@ class IndexView(View):
         tasks = Task.objects.all()
 
 
-        return render(request, 'index.html', {'tasks':tasks, 'today': today})
+        return render(request, 'index.html', {'tasks':tasks, 'today': date.today()})
 
 class MyTaskView(View):
     def get(self, request):
@@ -47,7 +43,7 @@ class MyTaskView(View):
 
         tasks = Task.objects.filter(user=user)
 
-        return render(request, 'my_tasks.html', {'tasks':tasks, 'today': today})
+        return render(request, 'my_tasks.html', {'tasks':tasks, 'today': date.today()})
 
     def post(self, request):
 
@@ -70,7 +66,7 @@ class MyTaskView(View):
         user = request.user
         tasks = Task.objects.filter(user=user)
 
-        return render(request, 'my_tasks.html', {'tasks':tasks, 'today': today})
+        return render(request, 'my_tasks.html', {'tasks':tasks, 'today': date.today()})
 
 class TaskDetailView(View):
     def get(self, request, id):
@@ -89,6 +85,6 @@ class SearchTaskView(View):
         search = request.POST.get('search')
         tasks = Task.objects.filter(Q(name__contains=search) | Q(description__contains=search))
 
-        return render(request, 'search.html', {'tasks':tasks, 'today': today})
+        return render(request, 'search.html', {'tasks':tasks, 'today': date.today()})
 
 

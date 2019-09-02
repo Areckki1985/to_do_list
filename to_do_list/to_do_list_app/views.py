@@ -1,4 +1,5 @@
 from django.views import View
+from django.views.generic.list import ListView
 from django.shortcuts import render
 from django.db.models import Q
 
@@ -28,13 +29,16 @@ class CreateTaskView(View):
             message = 'Wypełnij poprawnie wszystkie pola'
             return render(request, 'add_task.html', {'form': form, 'message':message})
 
-class IndexView(View):
-    def get(self, request):
+class IndexListView(ListView):
 
-        tasks = Task.objects.all()
+    model = Task
+    template_name = 'index.html'
+    context_object_name = 'tasks'
 
-
-        return render(request, 'index.html', {'tasks':tasks, 'today': date.today()})
+    def get_context_data(self, **kwargs):
+        context = super(IndexListView, self).get_context_data(**kwargs)
+        context['today'] = date.today()
+        return context
 
 class MyTaskView(View):
     def get(self, request):

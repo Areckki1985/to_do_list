@@ -1,5 +1,6 @@
 from django.views import View
 from django.views.generic.list import ListView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.db.models import Q
 
@@ -9,7 +10,10 @@ from to_do_list_app.models import Task
 from to_do_list_app.forms import AddTaskForm
 
 
-class CreateTaskView(View):
+class CreateTaskView(LoginRequiredMixin, View):
+    login_url = '/'
+
+
     def get(self, request):
         form = AddTaskForm
 
@@ -40,7 +44,10 @@ class IndexListView(ListView):
         return context
 
 
-class MyTaskView(View):
+class MyTaskView(LoginRequiredMixin, View):
+    login_url = '/'
+
+
     def get(self, request):
         user = request.user
         tasks = Task.objects.filter(user=user)

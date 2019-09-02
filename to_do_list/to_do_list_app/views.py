@@ -1,18 +1,17 @@
-from django.views import View
-from django.views.generic.list import ListView
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render
-from django.db.models import Q
-
 from datetime import date
 
-from to_do_list_app.models import Task
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Q
+from django.shortcuts import render
+from django.views import View
+from django.views.generic.list import ListView
 from to_do_list_app.forms import AddTaskForm
+from to_do_list_app.models import Task, FINISHED_TASK, NEW_TASK
+
 
 
 class CreateTaskView(LoginRequiredMixin, View):
     login_url = '/'
-
 
     def get(self, request):
         form = AddTaskForm
@@ -47,7 +46,6 @@ class IndexListView(ListView):
 class MyTaskView(LoginRequiredMixin, View):
     login_url = '/'
 
-
     def get(self, request):
         user = request.user
         tasks = Task.objects.filter(user=user)
@@ -64,11 +62,11 @@ class MyTaskView(LoginRequiredMixin, View):
             task.delete()
         elif status_done:
             done_status_task = Task.objects.get(id=status_done)
-            done_status_task.status = 2
+            done_status_task.status = FINISHED_TASK
             done_status_task.save()
         elif status_new:
             new_status_task = Task.objects.get(id=status_new)
-            new_status_task.status = 1
+            new_status_task.status = NEW_TASK
             new_status_task.save()
 
         user = request.user

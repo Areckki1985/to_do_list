@@ -18,7 +18,7 @@ from django.urls import path, include
 from django.conf.urls import url
 from django.views.generic.base import TemplateView
 
-from to_do_list_app.views import IndexView, CreateTaskView, MyTaskView, TaskDetailView, SearchTaskView
+from to_do_list_app.views import IndexListView, CreateTaskView, MyTaskView, TaskDetailView, SearchTaskView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,7 +27,7 @@ urlpatterns = [
     path('', TemplateView.as_view(template_name='home.html'), name='home'),
 
     path('add_task/', CreateTaskView.as_view()),
-    path('index/', IndexView.as_view()),
+    path('index/', IndexListView.as_view()),
     path('my_tasks/', MyTaskView.as_view()),
     url(r'^task_detail/(?P<id>(\d)+)/', TaskDetailView.as_view()),
     path('search_task/', SearchTaskView.as_view()),

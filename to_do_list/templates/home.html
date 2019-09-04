@@ -7,15 +7,15 @@
 {% load static %}
 <div>
   {% if user.is_authenticated %}
-    <input style="position: absolute; left: 100px; bottom: 850px" type="button" value="Add Task" onclick="location.href='/add_task/'"><br>
-    <input style="position: absolute; left: 100px; bottom: 800px" type="button" value="Show All Tasks" onclick="location.href='http://127.0.0.1:8000/index/'"><br>
-    <input style="position: absolute; left: 100px; bottom: 750px" type="button" value="Show My Tasks" onclick="location.href='http://127.0.0.1:8000/my_tasks/'"><br>
-    <input style="position: absolute; left: 100px; bottom: 700px" type="button" value="Search For Tasks" onclick="location.href='http://127.0.0.1:8000/search_task/'"><br>
+    <input style="position: absolute; left: 100px; bottom: 850px" type="button" value="Add Task" onclick="location.href={% url 'add_task' %}"><br>
+    <input style="position: absolute; left: 100px; bottom: 800px" type="button" value="Show All Tasks" onclick="location.href={% url 'index' %}"><br>
+    <input style="position: absolute; left: 100px; bottom: 750px" type="button" value="Show My Tasks" onclick="location.href={% url 'my_tasks' %}"><br>
+    <input style="position: absolute; left: 100px; bottom: 700px" type="button" value="Search For Tasks" onclick="location.href={% url 'search_task' %}"><br>
 
 
   {% else %}
-    <input style="position: absolute; left: 100px; bottom: 800px" type="button" value="Show All Tasks" onclick="location.href='http://127.0.0.1:8000/index/'"><br>
-    <input style="position: absolute; left: 100px; bottom: 750px" type="button" value="Search For Tasks" onclick="location.href='http://127.0.0.1:8000/search_task/'"><br>
+    <input style="position: absolute; left: 100px; bottom: 800px" type="button" value="Show All Tasks" onclick="location.href={% url 'index' %}"><br>
+    <input style="position: absolute; left: 100px; bottom: 750px" type="button" value="Search For Tasks" onclick="location.href={% url 'search_task' %}"><br>
   {% endif %}
 
 </div>

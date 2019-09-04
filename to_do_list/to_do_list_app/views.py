@@ -57,17 +57,22 @@ class MyTaskView(LoginRequiredMixin, View):
         status_done = request.POST.get('Status_done')
         status_new = request.POST.get('Status_new')
 
+        user = request.user
+
         if delete:
             task = Task.objects.get(id=delete)
-            task.delete()
+            if user.id == task.user_id:
+                task.delete()
         elif status_done:
             done_status_task = Task.objects.get(id=status_done)
-            done_status_task.status = FINISHED_TASK
-            done_status_task.save()
+            if user.id ==  done_status_task.user_id:
+                done_status_task.status = FINISHED_TASK
+                done_status_task.save()
         elif status_new:
             new_status_task = Task.objects.get(id=status_new)
-            new_status_task.status = NEW_TASK
-            new_status_task.save()
+            if user.id == new_status_task.user_id:
+                new_status_task.status = NEW_TASK
+                new_status_task.save()
 
         user = request.user
         tasks = Task.objects.filter(user=user)

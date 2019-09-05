@@ -6,6 +6,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.views import View
 from django.views.generic.list import ListView
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from to_do_list_app.forms import AddTaskForm
 from to_do_list_app.models import Task, FINISHED_TASK, NEW_TASK
 
@@ -50,7 +51,16 @@ class MyTaskView(LoginRequiredMixin, View):
 
     def get(self, request):
         user = request.user
-        tasks = Task.objects.filter(user=user)
+        task_list = Task.objects.filter(user=user)
+        page = request.GET.get('page', 1)
+
+        paginator = Paginator(task_list, 10)
+        try:
+            tasks = paginator.page(page)
+        except PageNotAnInteger:
+            tasks = paginator.page(1)
+        except EmptyPage:
+            tasks = paginator.page(paginator.num_pages)
 
         return render(request, 'my_tasks.html', {'tasks': tasks, 'today': date.today()})
 

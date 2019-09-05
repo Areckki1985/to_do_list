@@ -38,12 +38,20 @@ class IndexListView(ListView):
     template_name = 'index.html'
     context_object_name = 'tasks'
     paginate_by = 10
-    queryset = Task.objects.all()
+    # queryset = Task.objects.all()
 
     def get_context_data(self, **kwargs):
         context = super(IndexListView, self).get_context_data(**kwargs)
         context['today'] = date.today()
         return context
+
+    def get_queryset(self):
+        order = self.request.GET.get('order')
+        if order:
+            queryset = Task.objects.all().order_by(order)
+        else:
+            queryset = Task.objects.all()
+        return queryset
 
 
 class MyTaskView(LoginRequiredMixin, View):
@@ -68,6 +76,7 @@ class MyTaskView(LoginRequiredMixin, View):
         delete = request.POST.get('Delete')
         status_done = request.POST.get('Status_done')
         status_new = request.POST.get('Status_new')
+        order = request.POST.get('order')
 
         user = request.user
 
@@ -87,7 +96,11 @@ class MyTaskView(LoginRequiredMixin, View):
                 new_status_task.save()
 
         user = request.user
-        task_list = Task.objects.filter(user=user)
+
+        if order:
+            task_list = Task.objects.filter(user=user).order_by(order)
+        else:
+            task_list = Task.objects.filter(user=user)
 
         page = request.GET.get('page', 1)
 

@@ -15,8 +15,18 @@
 {% block templates %}
 <div class="container">
   <h2>My Tasks Table</h2>
+
 <form action="/my_tasks/" method="post">
     {% csrf_token %}
+
+    <label>
+            <input type="radio" name="order" value="name"> Task Name
+            <input type="radio" name="order" value="deadline_date"> Deadline Date
+            <input type="radio" name="order" value="user"> User Name
+            <input type="radio" name="order" value="status"> Status
+    </label>
+            <button type="submit" name="sort" value="sort">Sort Data</button> <br>
+
   <table class="table">
     <thead>
       <tr>

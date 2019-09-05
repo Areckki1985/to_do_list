@@ -2,12 +2,12 @@ from datetime import date
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.views import View
 from django.views.generic.list import ListView
 from to_do_list_app.forms import AddTaskForm
 from to_do_list_app.models import Task, FINISHED_TASK, NEW_TASK
-
 
 
 class CreateTaskView(LoginRequiredMixin, View):
@@ -26,7 +26,7 @@ class CreateTaskView(LoginRequiredMixin, View):
             task = form.save(commit=False)
             task.user = user
             task.save()
-            return render(request, 'add_task.html', {'form': form})
+            return HttpResponseRedirect('/index/')
         else:
             message = 'Wypełnij poprawnie wszystkie pola'
             return render(request, 'add_task.html', {'form': form, 'message': message})
@@ -36,6 +36,8 @@ class IndexListView(ListView):
     model = Task
     template_name = 'index.html'
     context_object_name = 'tasks'
+    paginate_by = 10
+    queryset = Task.objects.all()
 
     def get_context_data(self, **kwargs):
         context = super(IndexListView, self).get_context_data(**kwargs)
@@ -65,7 +67,7 @@ class MyTaskView(LoginRequiredMixin, View):
                 task.delete()
         elif status_done:
             done_status_task = Task.objects.get(id=status_done)
-            if user.id ==  done_status_task.user_id:
+            if user.id == done_status_task.user_id:
                 done_status_task.status = FINISHED_TASK
                 done_status_task.save()
         elif status_new:

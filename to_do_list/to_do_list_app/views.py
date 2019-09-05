@@ -87,7 +87,17 @@ class MyTaskView(LoginRequiredMixin, View):
                 new_status_task.save()
 
         user = request.user
-        tasks = Task.objects.filter(user=user)
+        task_list = Task.objects.filter(user=user)
+
+        page = request.GET.get('page', 1)
+
+        paginator = Paginator(task_list, 10)
+        try:
+            tasks = paginator.page(page)
+        except PageNotAnInteger:
+            tasks = paginator.page(1)
+        except EmptyPage:
+            tasks = paginator.page(paginator.num_pages)
 
         return render(request, 'my_tasks.html', {'tasks': tasks, 'today': date.today()})
 

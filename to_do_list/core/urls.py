@@ -26,11 +26,11 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('', TemplateView.as_view(template_name='home.html'), name='home'),
 
-    path('add_task/', CreateTaskView.as_view()),
-    path('index/', IndexListView.as_view()),
-    path('my_tasks/', MyTaskView.as_view()),
-    url(r'^task_detail/(?P<id>(\d)+)/', TaskDetailView.as_view()),
-    path('search_task/', SearchTaskView.as_view()),
+    path('add_task/', CreateTaskView.as_view(), name='add_task'),
+    path('index/', IndexListView.as_view(), name='index'),
+    path('my_tasks/', MyTaskView.as_view(), name='my_tasks'),
+    path('task_detail/<int:id>/', TaskDetailView.as_view(), name='task_detail'),
+    path('search_task/', SearchTaskView.as_view(), name='search_task'),
 
 
 ]

@@ -7,29 +7,29 @@ from django.shortcuts import render
 from django.views import View
 from django.views.generic.list import ListView
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from to_do_list_app.forms import AddTaskForm
+from to_do_list_app.forms import TaskForm
 from to_do_list_app.models import Task, FINISHED_TASK, NEW_TASK
+from to_do_list_app.service import ToDoService
 
 
 class CreateTaskView(LoginRequiredMixin, View):
     login_url = '/'
 
     def get(self, request):
-        form = AddTaskForm
+        form = TaskForm
 
         return render(request, 'add_task.html', {'form': form})
 
     def post(self, request):
-        form = AddTaskForm(request.POST)
+        form = TaskForm(request.POST)
+        to_do_service = ToDoService(request.user)
 
         if form.is_valid() and request.user.is_authenticated:
-            user = request.user
-            task = form.save(commit=False)
-            task.user = user
-            task.save()
+            to_do_service.add_new_task(form)
+
             return HttpResponseRedirect('/index/')
         else:
-            message = 'Wypełnij poprawnie wszystkie pola'
+            message = to_do_service.FAILED_CREATION_MESSAGE
             return render(request, 'add_task.html', {'form': form, 'message': message})
 
 
@@ -38,7 +38,6 @@ class IndexListView(ListView):
     template_name = 'index.html'
     context_object_name = 'tasks'
     paginate_by = 10
-    # queryset = Task.objects.all()
 
     def get_context_data(self, **kwargs):
         context = super(IndexListView, self).get_context_data(**kwargs)
@@ -59,8 +58,13 @@ class MyTaskView(LoginRequiredMixin, View):
 
     def get(self, request):
         user = request.user
-        task_list = Task.objects.filter(user=user)
+        order = request.GET.get('order', None)
         page = request.GET.get('page', 1)
+
+        if order:
+            task_list = Task.objects.filter(user=user).order_by(order)
+        else:
+            task_list = Task.objects.filter(user=user)
 
         paginator = Paginator(task_list, 10)
         try:
@@ -76,43 +80,17 @@ class MyTaskView(LoginRequiredMixin, View):
         delete = request.POST.get('Delete')
         status_done = request.POST.get('Status_done')
         status_new = request.POST.get('Status_new')
-        order = request.POST.get('order')
-
         user = request.user
+        to_do_service = ToDoService(user)
 
         if delete:
-            task = Task.objects.get(id=delete)
-            if user.id == task.user_id:
-                task.delete()
+            to_do_service.delete_task(delete)
         elif status_done:
-            done_status_task = Task.objects.get(id=status_done)
-            if user.id == done_status_task.user_id:
-                done_status_task.status = FINISHED_TASK
-                done_status_task.save()
+            to_do_service.set_status_done(status_done)
         elif status_new:
-            new_status_task = Task.objects.get(id=status_new)
-            if user.id == new_status_task.user_id:
-                new_status_task.status = NEW_TASK
-                new_status_task.save()
+            to_do_service.set_status_new(status_new)
 
-        user = request.user
-
-        if order:
-            task_list = Task.objects.filter(user=user).order_by(order)
-        else:
-            task_list = Task.objects.filter(user=user)
-
-        page = request.GET.get('page', 1)
-
-        paginator = Paginator(task_list, 10)
-        try:
-            tasks = paginator.page(page)
-        except PageNotAnInteger:
-            tasks = paginator.page(1)
-        except EmptyPage:
-            tasks = paginator.page(paginator.num_pages)
-
-        return render(request, 'my_tasks.html', {'tasks': tasks, 'today': date.today()})
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
 class TaskDetailView(View):

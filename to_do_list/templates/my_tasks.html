@@ -15,17 +15,15 @@
 {% block templates %}
 <div class="container">
   <h2>My Tasks Table</h2>
-
-<form action="/my_tasks/" method="post">
-    {% csrf_token %}
-
-    <label>
-            <input type="radio" name="order" value="name"> Task Name
-            <input type="radio" name="order" value="deadline_date"> Deadline Date
-            <input type="radio" name="order" value="user"> User Name
-            <input type="radio" name="order" value="status"> Status
+<form>
+    <label style="float: right; margin-right: 55px">
+        <input type="radio" name="order" value="name"> Task Name
+        <input type="radio" name="order" value="deadline_date"> Deadline Date
+        <input type="radio" name="order" value="user"> User Name
+        <input type="radio" name="order" value="status"> Status
+        <button type="submit">Sort Data</button> <br>
     </label>
-            <button type="submit" name="sort" value="sort">Sort Data</button> <br>
+</form>
 
   <table class="table">
     <thead>
@@ -50,9 +48,12 @@
           <th class="text-center">{{ task.user }}</th>
           <th class="text-center"><a href={% url 'task_detail' task.id %}>Task Detail</a></th>
 <!--          <th class="text-center"><input type="button" value="Task Details" onclick="location.href='http://127.0.0.1:8000/task_detail/{{ task.id }}'"></th>-->
+          <form action="/my_tasks/" method="post">
+    {% csrf_token %}
           <th class="text-center"><button type="submit" name="Delete" value="{{ task.id }} ">Delete</button> <br></th>
           <th class="text-center"><button type="submit" name="Status_done" value="{{ task.id }} ">Done</button> <br></th>
           <th class="text-center"><button type="submit" name="Status_new" value="{{ task.id }} ">New</button> <br></th>
+          </form>
       </tr>
       {% else %}
       <tr>
@@ -62,16 +63,19 @@
           <th class="text-center">{{ task.user }}</th>
           <th class="text-center"><a href={% url 'task_detail' task.id %}>Task Detail</a></th>
 <!--          <th class="text-center"><input type="button" value="Task Details" onclick="location.href='http://127.0.0.1:8000/task_detail/{{ task.id }}'"></th>-->
+          <form action="/my_tasks/" method="post">
+    {% csrf_token %}
           <th class="text-center"><button type="submit" name="Delete" value="{{ task.id }} ">Delete</button> <br></th>
           <th class="text-center"><button type="submit" name="Status_done" value="{{ task.id }} ">Done</button> <br></th>
           <th class="text-center"><button type="submit" name="Status_new" value="{{ task.id }} ">New</button> <br></th>
+          </form>
       </tr>
       {% endif %}
       {% endfor %}
     </tbody>
   </table>
     {% if tasks.has_other_pages %}
-        <ul class="pagination">
+        <ul style="float: right; margin-right: 70px" class="pagination">
         {% if tasks.has_previous %}
             <li><a href="?page={{ users.previous_page_number }}">&laquo;</a></li>
         {% else %}
